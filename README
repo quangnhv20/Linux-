@@ -1,2 +1,29 @@
 Hello from Quang
 Run cmd in the background : cmd + &  link : makeuseof.com/run-linux-commands-in-background/ 
+---------
+PACKAGE -
+---------
+1. download a package 
+  sudo apt-get install --reinstall --download-only <name_package>
+2. modify a package 
+Copy the deb file to a directory
+
+Create the directory structure
+$ mkdir -p newpack oldpack/DEBIAN
+
+Extract the filesystem tree
+$ dpkg-deb -x file.deb oldpack/
+
+Extract the control information files
+$ dpkg-deb -e file.deb oldpack/DEBIAN
+
+Modify something if you want
+
+Repackage the deb file under newpack directory using xz compression
+$ dpkg-deb -Z xz -b oldpack/ newpack/ 
+
+--------
+DOCKER -
+--------
+
+  
