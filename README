@@ -50,3 +50,16 @@ ssh-keygen -t ed25519
 13. git rebase master
 14. git checkout <name_branch>
 15. git branch <name_branch>
+
+--------------
+pip3 install -
+--------------
+--upgrade : 
+--no-index : ignore package index (only looking at --find-link) 
+--find-link : 
+. if a URL or path to an html file, then parse for links to archives such as sdist (.tar.get)
+for wheel(.whl) files.
+. if a local path or file:// URL that;s a directory, then look for archies in the directory listing. 
+
+-t + path + name 
+-t, --target <dir> : install packages into <dir> 
