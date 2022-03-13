@@ -1,0 +1,60 @@
+Step 1 : preprocessor .c, .cpp, .h : trình biên dịch thay thế giá trị của các define, macro trong file mã nguồn .h và .cpp
+Step 2 : compiler gcc, g++ : dịch mã nguồn thành mã assemly
+Step 3 : Assembler as : từ mã assemly sẽ được build xuống mã nhị phân - hay còn gọi là mã máy
+Step 4 : Linker ld : tiến hành link các module và các thư viện ngoài thành file thực thi 
+---
+Khi build một chương trình đơn giản chúng ta sử dụng cú pháp sau :
+
+gcc -Wall -o <file_thực_thi><các file nguồn>
+Với :
+-Wall chỉ định cho gcc sẽ xuất ra tất cả các warnin trong quá trình build
+-o chỉ định cho gcc sẽ build source file thành file thực thi excutable
+file thực thi là file output sau quá trình build và link các thư viện
+các file nguồn đầu vào cho việc build ra file thực thi 
+
+hoặc 
+gcc -c <các file nguồn>
+Để build source file thành các file object - chưa build và link ra file thực thi 
+------------
+Ví dụ trong thư mục math có 2 file là math.h định nghĩa prototype của các hàm và math.c sẽ implement các prototype trong math.h 
+
+file main.c 
+thư mục math 
+1. file math.h
+2. file math.c
+
+chúng ta thấy rằng trong file main có sử dụng module math vì vậy trước khi build main.c chúng ta phải build math.c sau đó link math.o ( file sau khi
+được build math.c) và main.c 
+Bước 1 : build module math 
+	gcc -c math/math.c 
+sẽ được file main.o
+Bước 2 : link math.o và main.c 
+	gcc -Wall -o main math.o main.c
+sẽ được main 
+./main 
+----------------------
+Link thư viện ngoài với gcc 
+Có 2 loại thư viện :
+1. Thư viện liên kết tỉnh (Static Library)
+Trong Linux thư hiện liên kết tỉnh có đuôi .a 
+Khi link thư viện liên kết tỉnh với mã của chúng ta để tạo ra file thực thi thì gcc sẽ nạp tất cả mã của thư viện lk tỉnh vào file thực
+thi. Vì vậy kích thước của file thực thi khi này khá lớn 
+2. Thư viện lk động ( Dynamic Library) 
+có đuôi .so
+Khác với tv lk tỉnh, thì khi link thư viện lk động với mã của chúng ta để tạo ra file thực thi thì gcc sẽ ko nạp mã của thư viện lk động
+vào file thực thi. Mà khi ctr runtime thì ctr mới link các phương thức cần sử dụng trong thư viện lk động. Vì vậy mà file thực thi sau khi 
+link xong sẽ có kích thước nhỏ. 
+
+Cả hai thư viện này đều chứa mã nhị phân và có những file header .h chứa các prototype của các hàm trong thư viện. 
+
+Đa số các thư viện lớn như FFMPEG, OPENCV, SDL sau khi vuild xong sẽ cho chúng ta thư viện lk động và tv lk tỉnh
+
+Để build cần :
+1. Cần chỉ định cho gcc đường dẫn chứa các file header của thư viện sử dụng -I
+2. Cần chỉ định cho gcc đường dẫn chứa các file library của thư viện sử dụng -L
+3. Link các module thư viện liên kết 
+
+Ví dụ : thư viện Opencv có 
+/usr/local/include là đường dẫn chứa header của thư viện 
+/usr/local/lib là đường dẫn chứa các lib của thư viện 
+g++ -Wall -o main main.cpp -I/usr/local/include -L/usr/local/lib -lopencv_calib3d -lopencv_core -lopencv_features2d -lopencv_flann -lopencv_highgui -lopencv_imgcodecs -lopencv_imgproc -lopencv_ml -lopencv_objdetect -lopencv_photo -lopencv_shape -lopencv_stitching -lopencv_superres -lopencv_ts -lopencv_video -lopencv_videoio -lopencv_videostab
