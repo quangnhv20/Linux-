@@ -1,0 +1,4 @@
+1. sed 
+2. grep -rn "mgs" . 
+3. find . -name <file name>
+4. find type -name <dir> 
