@@ -1,0 +1,4 @@
+#!/bin/bash 
+SECONDS=16789970
+d=`date -u -d @${SECONDS} '+%FT%T'`
+echo ${d}
